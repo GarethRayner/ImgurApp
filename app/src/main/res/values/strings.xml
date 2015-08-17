@@ -6,4 +6,5 @@
     <string name="imgur_app_title">Imgur!</string>
     <string name="view_main_gallery">View Main Gallery</string>
     <string name="main_home_image_desc">Imgur logo.</string>
+    <string name="title_activity_main_gallery">Main Gallery</string>
 </resources>
