@@ -1,7 +1,10 @@
 package uk.co.pagesuite.imgurapp;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.Image;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +12,10 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
 
 import java.util.ArrayList;
 
@@ -38,26 +45,65 @@ public class GalleryAdapter extends BaseAdapter {
     public class DisplayHolder {
         ImageView image;
         TextView title;
+        String url;
+        ImageReq imageDown;
+
+        public void setImage(Bitmap response) {
+            //String oUrl = imageDown.getUrl();
+            //if(oUrl.compareTo(url) == 0) {
+                image.setImageBitmap(response);
+            //} else {
+            //    image.setImageBitmap(response);
+           // }
+        }
+
+        public void downloadImage(Sub sub) {
+            imageDown = new ImageReq(sub.imageUrl, new Response.Listener<Bitmap>() {
+                @Override
+                public void onResponse(Bitmap response) {
+                    setImage(response);
+                }
+            }, 500, 500, ImageView.ScaleType.CENTER_CROP, null, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+
+                }
+            });
+
+            ReqQueue.getInstance(context).add(imageDown);
+        }
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
-        DisplayHolder dh = new DisplayHolder();
-        View gridBlock;
+        DisplayHolder dh;
+        Sub sub = posts.get(position);
 
         if(convertView == null) {
-            gridBlock = inflater.inflate(R.layout.image_block, parent, false);
-            dh.image = (ImageView) gridBlock.findViewById(R.id.image);
-            dh.title = (TextView) gridBlock.findViewById(R.id.title);
+            dh = new DisplayHolder();
+            convertView = inflater.inflate(R.layout.image_block, parent, false);
+            dh.image = (ImageView) convertView.findViewById(R.id.image);
+            dh.title = (TextView) convertView.findViewById(R.id.title);
 
-            dh.title.setText(posts.get(position).title);
+            convertView.setLayoutParams(new GridView.LayoutParams(950, 850));
+            convertView.setPadding(10, 10, 10, 10);
 
-            gridBlock.setLayoutParams(new GridView.LayoutParams(950, 850));
-            gridBlock.setPadding(10, 10, 10, 10);
+            convertView.setTag(dh);
         } else {
-            gridBlock = convertView;
+            dh = (DisplayHolder) convertView.getTag();
         }
 
-        //imageHolder.setImageResource(thumbs[position]);
-        return gridBlock;
+        dh.url = sub.imageUrl;
+        Log.d("URL", dh.url);
+
+        if(dh.url.substring(0, 4).compareTo("http") == 0) {
+            dh.downloadImage(sub);
+        } else {
+            dh.setImage(BitmapFactory.decodeResource(context.getResources(), R.drawable.sample_0));
+        }
+
+
+        dh.title.setText(sub.title);
+
+        return convertView;
     }
 }

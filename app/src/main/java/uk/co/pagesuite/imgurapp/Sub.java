@@ -6,9 +6,9 @@ public class Sub {
     public String imageUrl;
     public String imageThumbUrl;
 
-    public Sub(String i, String t, String iTU) {
+    public Sub(String i, String t, String iM) {
         id = i;
         title = t;
-        imageThumbUrl = iTU;
+        imageUrl = iM;
     }
 }

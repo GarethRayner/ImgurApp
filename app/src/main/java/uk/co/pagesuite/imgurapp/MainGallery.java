@@ -49,7 +49,6 @@ public class MainGallery extends Activity {
             @Override
             public void onResponse(JSONObject response) {
                 load = response;
-
                 finishedDownload();
             }
         }, new Response.ErrorListener() {
@@ -82,9 +81,22 @@ public class MainGallery extends Activity {
             feed = load.optJSONObject("data").optJSONArray("children");
             int count = feed.length();
             for(int i = 0; i < count; i++) {
-                JSONObject temp = feed.getJSONObject(i);
-                JSONObject post = temp.getJSONObject("data");
-                Sub sub = new Sub(post.getString("id"), post.getString("title"), post.getString("thumbnail"));
+                JSONObject temp = feed.optJSONObject(i);
+                JSONObject post = temp.optJSONObject("data");
+
+                JSONObject preview = post.optJSONObject("preview");
+                String url;
+
+                if(preview != null) {
+                    url = preview.optJSONArray("images").optJSONObject(0).optJSONObject("source").optString("url");
+                } else {
+                    url = "invalid";
+                }
+
+                Sub sub = new Sub(post.optString("id"), post.optString("title"), url);
+                if(sub.imageUrl.substring(0, 4).compareTo("http") != 0) {
+                    Log.d("Bad", sub.id);
+                }
                 posts.add(sub);
             }
         }
