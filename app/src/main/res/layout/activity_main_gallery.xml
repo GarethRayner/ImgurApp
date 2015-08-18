@@ -17,18 +17,23 @@
         android:layout_marginBottom="10dp"
         android:contentDescription="@string/main_home_image_desc"
         android:src="@drawable/imgur_banner" />
-    <GridView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/banner"
-        android:columnWidth="90dp"
-        android:numColumns="auto_fit"
-        android:verticalSpacing="10dp"
-        android:horizontalSpacing="10dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:background="@drawable/bg_main_view"
-        android:stretchMode="columnWidth"
-        android:gravity="center"
-        android:id="@+id/gridView" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/banner">
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/refresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <GridView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/banner"
+                android:id="@+id/gridView"
+                android:gravity="center"
+                android:numColumns="1"
+                android:padding="10dp"
+                android:background="@drawable/bg_main_view" />
+        </android.support.v4.widget.SwipeRefreshLayout>
+    </LinearLayout>
 </RelativeLayout>

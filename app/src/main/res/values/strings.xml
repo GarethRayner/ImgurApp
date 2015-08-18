@@ -7,4 +7,6 @@
     <string name="view_main_gallery">View Main Gallery</string>
     <string name="main_home_image_desc">Imgur logo.</string>
     <string name="title_activity_main_gallery">Main Gallery</string>
+    <string name="menu_refresh_main">Refresh Gallery</string>
+    <string name="image_box_desc">The main image of this post.</string>
 </resources>

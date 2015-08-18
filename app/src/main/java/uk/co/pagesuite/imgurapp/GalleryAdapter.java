@@ -1,57 +1,63 @@
 package uk.co.pagesuite.imgurapp;
 
 import android.content.Context;
+import android.media.Image;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.TextView;
+
+import java.util.ArrayList;
 
 public class GalleryAdapter extends BaseAdapter {
     private Context context;
+    private ArrayList<Sub> posts;
+    private static LayoutInflater inflater;
 
-    public GalleryAdapter(Context con) {
+    public GalleryAdapter(Context con, ArrayList<Sub> data) {
         context = con;
+        posts = data;
+        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     public int getCount() {
-        return thumbs.length;
+        return posts.size();
     }
 
     public Object getItem(int position) {
-        return null;
+        return posts.get(position);
     }
 
     public long getItemId(int position) {
-        return 0;
+        return position;
+    }
+
+    public class DisplayHolder {
+        ImageView image;
+        TextView title;
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
-        ImageView imageHolder;
+        DisplayHolder dh = new DisplayHolder();
+        View gridBlock;
+
         if(convertView == null) {
-            imageHolder = new ImageView(context);
-            imageHolder.setLayoutParams(new GridView.LayoutParams(250, 250));
-            imageHolder.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            imageHolder.setPadding(8 ,8 ,8 ,8);
+            gridBlock = inflater.inflate(R.layout.image_block, parent, false);
+            dh.image = (ImageView) gridBlock.findViewById(R.id.image);
+            dh.title = (TextView) gridBlock.findViewById(R.id.title);
+
+            dh.title.setText(posts.get(position).title);
+
+            gridBlock.setLayoutParams(new GridView.LayoutParams(950, 850));
+            gridBlock.setPadding(10, 10, 10, 10);
         } else {
-            imageHolder = (ImageView) convertView;
+            gridBlock = convertView;
         }
 
-        imageHolder.setImageResource(thumbs[position]);
-        return imageHolder;
+        //imageHolder.setImageResource(thumbs[position]);
+        return gridBlock;
     }
-
-    private Integer[] thumbs = {
-            R.drawable.sample_2, R.drawable.sample_3,
-            R.drawable.sample_4, R.drawable.sample_5,
-            R.drawable.sample_6, R.drawable.sample_7,
-            R.drawable.sample_0, R.drawable.sample_1,
-            R.drawable.sample_2, R.drawable.sample_3,
-            R.drawable.sample_4, R.drawable.sample_5,
-            R.drawable.sample_6, R.drawable.sample_7,
-            R.drawable.sample_0, R.drawable.sample_1,
-            R.drawable.sample_2, R.drawable.sample_3,
-            R.drawable.sample_4, R.drawable.sample_5,
-            R.drawable.sample_6, R.drawable.sample_7
-    };
 }
