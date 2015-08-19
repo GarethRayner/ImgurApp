@@ -27,6 +27,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="uk.co.pagesuite.imgurapp.HomeScreen" />
         </activity>
+        <activity
+            android:name=".PostViewMain"
+            android:label="@string/title_activity_post_view_main"
+            android:parentActivityName=".MainGallery" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="uk.co.pagesuite.imgurapp.MainGallery" />
+        </activity>
     </application>
 
 </manifest>

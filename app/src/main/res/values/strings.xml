@@ -9,4 +9,5 @@
     <string name="title_activity_main_gallery">Main Gallery</string>
     <string name="menu_refresh_main">Refresh Gallery</string>
     <string name="image_box_desc">The main image of this post.</string>
+    <string name="title_activity_post_view_main">Post View</string>
 </resources>
