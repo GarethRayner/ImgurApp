@@ -2,11 +2,14 @@ package uk.co.pagesuite.imgurapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Point;
 import android.net.Uri;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.TextView;
@@ -103,8 +106,13 @@ public class GalleryAdapter extends BaseAdapter {
             dh.image = (NetworkImageView) convertView.findViewById(R.id.image);
             dh.title = (TextView) convertView.findViewById(R.id.title);
 
+            WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+            Display display = wm.getDefaultDisplay();
+            Point point = new Point();
+            display.getSize(point);
+
             //Set the appropriate styles to seperate each individual layout in the GridView, setting size and padding.
-            convertView.setLayoutParams(new GridView.LayoutParams(950, 850));
+            convertView.setLayoutParams(new GridView.LayoutParams((point.x - 126), 850));
             convertView.setPadding(10, 10, 10, 10);
 
             //Set the tag for future use.

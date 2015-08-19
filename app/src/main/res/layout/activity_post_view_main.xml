@@ -33,13 +33,16 @@
         android:layout_marginTop="10dp"
         android:id="@+id/view"
         android:background="@drawable/bg_main_view">
-
-        <FrameLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/post_container" >
+            android:layout_height="match_parent">
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/post_container" >
 
-        </FrameLayout>
+            </FrameLayout>
+        </ScrollView>
     </RelativeLayout>
 
 </RelativeLayout>
