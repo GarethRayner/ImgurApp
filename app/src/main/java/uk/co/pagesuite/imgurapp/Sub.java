@@ -15,6 +15,7 @@ public class Sub {
     public String title;
     public String imageUrl;
     public String imageThumbUrl;
+    public int upvotes;
 
     /*
         Simple constructor for storing the variables passed.
@@ -23,10 +24,11 @@ public class Sub {
                 t   The title to be stored for this post.
                 iM  The image URL to be stored for this post.
      */
-    public Sub(String i, String t, String iM) {
+    public Sub(String i, String t, String iM, int up) {
         //Simply set all the variables with appropriate param.
         id = i;
         title = t;
         imageUrl = iM;
+        upvotes = up;
     }
 }

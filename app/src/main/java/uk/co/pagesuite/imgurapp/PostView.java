@@ -16,6 +16,7 @@ public class PostView extends Fragment {
      */
     String image;
     String caption;
+    int upvote;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -32,7 +33,7 @@ public class PostView extends Fragment {
         img.setErrorImageResId(R.drawable.imgur_no_image);
 
         //Set the caption in the TextView.
-        cap.setText(caption);
+        cap.setText(caption + "\n\n Upvotes: " + String.valueOf(upvote));
 
         //Finally, return the created view.
         return view;
@@ -44,8 +45,9 @@ public class PostView extends Fragment {
                 url     The URL which the image resides at.
                 cap     The caption for this post.
      */
-    public void setContent(String url, String cap) {
+    public void setContent(String url, String cap, int upvotes) {
         image = url;
         caption = cap;
+        upvote = upvotes;
     }
 }

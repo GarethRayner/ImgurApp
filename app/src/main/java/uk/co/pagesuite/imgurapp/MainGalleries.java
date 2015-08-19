@@ -4,6 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -78,9 +80,10 @@ public class MainGalleries extends FragmentActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_refresh) {
-            //If the user has clicked refresh, call refreshGallery and set the refresher object to refreshing.
+            //If the user has clicked refresh, call refreshGalleries and set the refresher object to refreshing.
             Toast toast = Toast.makeText(this, "Refreshing galleries...", Toast.LENGTH_SHORT);
             toast.show();
+
             refreshGalleries();
             return true;
         }
@@ -89,6 +92,9 @@ public class MainGalleries extends FragmentActivity {
     }
 
     public void refreshGalleries() {
+        Toast toast = Toast.makeText(this, "Refreshing galleries...", Toast.LENGTH_SHORT);
+        toast.show();
+
         //For each GalleryBlock instance, call refreshGallery on all of them.
         for(GalleryBlock gallery : galleries) {
             gallery.refreshGallery();

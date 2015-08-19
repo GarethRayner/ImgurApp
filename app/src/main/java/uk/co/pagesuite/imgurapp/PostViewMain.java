@@ -29,12 +29,13 @@ public class PostViewMain extends FragmentActivity {
         Intent intent = getIntent();
         String imUrl = intent.getStringExtra("image");
         String caption = intent.getStringExtra("title");
+        int upvotes = intent.getIntExtra("upvotes", 0);
 
         //Create a new PostView fragment instance.
         PostView post = new PostView();
 
         //Set the content by passing both data variables.
-        post.setContent(imUrl, caption);
+        post.setContent(imUrl, caption, upvotes);
 
         //Finally, find the FrameLayout placeholder and replace it with the new instance of a fragment.
         postLoader.replace(R.id.post_container, post);

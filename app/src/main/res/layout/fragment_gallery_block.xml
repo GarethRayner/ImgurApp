@@ -26,20 +26,15 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/banner">
-            <android.support.v4.widget.SwipeRefreshLayout
-                android:id="@+id/refresh"
+            <GridView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-                <GridView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_below="@id/banner"
-                    android:id="@+id/gridView"
-                    android:gravity="center"
-                    android:numColumns="1"
-                    android:padding="10dp"
-                    android:background="@drawable/bg_main_view" />
-            </android.support.v4.widget.SwipeRefreshLayout>
+                android:layout_height="match_parent"
+                android:layout_below="@id/banner"
+                android:id="@+id/gridView"
+                android:gravity="center"
+                android:numColumns="1"
+                android:padding="10dp"
+                android:background="@drawable/bg_main_view" />
         </LinearLayout>
     </RelativeLayout>
 </FrameLayout>

@@ -26,13 +26,12 @@ public class GalleryBlock extends Fragment {
             adapter     The custom adapter for the GridView.
             grid        Global GridView reference.
             load        Holder for JSON download, temporary variable.
-            refresher   SwipeRefreshLayout reference.
      */
     private ArrayList<Sub> posts = new ArrayList<Sub>();
     private GalleryAdapter adapter;
     private GridView grid;
     private JSONObject load;
-    private SwipeRefreshLayout refresher;
+
     private static String cat;
 
     public GalleryBlock() {
@@ -68,20 +67,6 @@ public class GalleryBlock extends Fragment {
         //Fetch the stored category and store it in the global variable.
         cat = getArguments().getString("category");
 
-
-        //Obtain a reference to the SwipeRefreshLayout in the layout...
-        refresher = (SwipeRefreshLayout) view.findViewById(R.id.refresh);
-
-        //Set the onRefreshListener for it, creating a new listener.
-        refresher.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            //A simple refresh event which outputs to the log that it is refreshing, before calling refreshGallery to reload and refresh.
-            @Override
-            public void onRefresh() {
-                Log.d("Refresher", "Refreshing images...");
-                refreshGallery();
-            }
-        });
-
         //Obtain a reference to the GridView in the layout...
         grid = (GridView) view.findViewById(R.id.gridView);
 
@@ -99,6 +84,7 @@ public class GalleryBlock extends Fragment {
                 //Set arguments...
                 intent.putExtra("image", posts.get(position).imageUrl);
                 intent.putExtra("title", posts.get(position).title);
+                intent.putExtra("upvotes", posts.get(position).upvotes);
 
                 //Start the activity with the intent.
                 startActivity(intent);
@@ -149,7 +135,7 @@ public class GalleryBlock extends Fragment {
                 }
 
                 //Create a new Sub instance, passing the obtained and parsed JSON data, such as ID, Title and Url of the image.
-                Sub sub = new Sub(post.optString("id"), post.optString("title"), url);
+                Sub sub = new Sub(post.optString("id"), post.optString("title"), url, post.optInt("ups"));
 
                 //Store the created Sub instance.
                 posts.add(sub);
@@ -169,14 +155,13 @@ public class GalleryBlock extends Fragment {
      */
     public void resetAdapter() {
         //Create a new GalleryAdapter with the context and data.
-        adapter = new GalleryAdapter(getActivity().getBaseContext(), posts);
+        if(isAdded()) {
+            adapter = new GalleryAdapter(getActivity().getBaseContext(), posts);
 
-        //Invalidate all current views in the GridView and pass the new adapter.
-        grid.invalidateViews();
-        grid.setAdapter(adapter);
-
-        //Set the refresher object to stop refreshing.
-        refresher.setRefreshing(false);
+            //Invalidate all current views in the GridView and pass the new adapter.
+            grid.invalidateViews();
+            grid.setAdapter(adapter);
+        }
     }
 
     /*
@@ -202,8 +187,10 @@ public class GalleryBlock extends Fragment {
             }
         });
 
-        //Fetch the custom ReqQueue to get the Volley RequestQueue and add the request for download.
-        ReqQueue.getInstance(getActivity().getBaseContext()).add(json);
+        if(isAdded()) {
+            //Fetch the custom ReqQueue to get the Volley RequestQueue and add the request for download.
+            ReqQueue.getInstance(getActivity().getApplicationContext()).add(json);
+        }
 
         //Reset the adapter to reload the views.
         resetAdapter();

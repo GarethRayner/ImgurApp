@@ -1,6 +1,7 @@
 package uk.co.pagesuite.imgurapp;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,9 +67,13 @@ public class GalleryAdapter extends BaseAdapter {
          */
         public void setImage(String urlL) {
             //Set the image URL and fetch the ReqQueue ImageLoader. Also set two images for appropriate error handling.
-            image.setImageUrl(urlL, ReqQueue.getiLoader());
-            image.setDefaultImageResId(R.drawable.imgur_no_image);
-            image.setErrorImageResId(R.drawable.imgur_no_image);
+            try {
+                image.setImageUrl(urlL, ReqQueue.getiLoader());
+                image.setDefaultImageResId(R.drawable.imgur_no_image);
+                image.setErrorImageResId(R.drawable.imgur_no_image);
+            } catch(Exception e) {
+                Log.e("Error", "Error loading image.");
+            }
         }
     }
 

@@ -25,7 +25,7 @@ public class FeedPageAdapter extends FragmentPagerAdapter {
         //Store the passed references.
         feeds = feedData;
     }
-    
+
     @Override
     public Fragment getItem(int position) {
         return feeds.get(position);
