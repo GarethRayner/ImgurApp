@@ -1,5 +1,6 @@
 package uk.co.pagesuite.imgurapp;
 
+import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -15,6 +16,8 @@ import com.android.volley.toolbox.NetworkImageView;
 
 public class PostViewMain extends FragmentActivity {
     private String image;
+    private String url;
+    private boolean zoomed;
 
     /*
         Standard onCreate event constructor.
@@ -38,6 +41,7 @@ public class PostViewMain extends FragmentActivity {
         image = intent.getStringExtra("image");
         String caption = intent.getStringExtra("title");
         int upvotes = intent.getIntExtra("upvotes", 0);
+        url = intent.getStringExtra("url");
 
         //Create a new PostView fragment instance.
         PostView post = new PostView();
@@ -59,16 +63,33 @@ public class PostViewMain extends FragmentActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if(zoomed) {
+            zoomed = false;
+        }
+    }
+
     public void zoom() {
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction transaction = fm.beginTransaction();
+        if(!zoomed) {
+            FragmentManager fm = getSupportFragmentManager();
+            FragmentTransaction transaction = fm.beginTransaction();
 
-        Fragment zoomed = new ZoomedImage();
-        Bundle args = new Bundle(1);
-        args.putString("url", image);
-        zoomed.setArguments(args);
+            Fragment zoom = new ZoomedImage();
+            Bundle args = new Bundle(1);
+            args.putString("url", image);
+            zoom.setArguments(args);
 
-        transaction.addToBackStack("zoom");
-        transaction.replace(R.id.post_container, zoomed).commit();
+            transaction.addToBackStack("zoom");
+            transaction.replace(R.id.post_container, zoom).commit();
+            zoomed = true;
+        }
+    }
+
+    public void viewB(View v) {
+        Uri ur = Uri.parse(url);
+        Intent intent = new Intent(Intent.ACTION_VIEW, ur);
+        startActivity(intent);
     }
 }

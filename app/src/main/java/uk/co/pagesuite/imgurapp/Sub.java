@@ -15,6 +15,7 @@ public class Sub {
     public String title;
     public String imageUrl;
     public String imageThumbUrl;
+    public String url;
     public int upvotes;
 
     /*
@@ -25,11 +26,12 @@ public class Sub {
                 iM  The image URL to be stored for this post.
                 up  The upvotes for this post.
      */
-    public Sub(String i, String t, String iM, int up) {
+    public Sub(String i, String t, String iM, int up, String u) {
         //Simply set all the variables with appropriate param.
         id = i;
         title = t;
         imageUrl = iM;
+        url = u;
         upvotes = up;
     }
 }

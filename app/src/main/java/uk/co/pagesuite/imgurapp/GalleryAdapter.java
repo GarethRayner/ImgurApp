@@ -1,6 +1,8 @@
 package uk.co.pagesuite.imgurapp;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -87,7 +89,7 @@ public class GalleryAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         //Create a new DisplayHolder local variable and fetch the appropriate data Sub from the data list.
         DisplayHolder dh;
-        Sub sub = posts.get(position);
+        final Sub sub = posts.get(position);
 
         //If the convertView is null, it hasn't been initialised yet...
         if(convertView == null) {

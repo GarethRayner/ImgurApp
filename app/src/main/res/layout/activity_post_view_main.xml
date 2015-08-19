@@ -12,14 +12,24 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:id="@+id/header"
         android:background="#2B2B2B"
         android:src="@drawable/imgur_banner" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/browser"
+        android:onClick="viewB"
+        android:text="@string/view_browser_button"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/header"
+        android:layout_above="@id/browser"
         android:layout_marginTop="10dp"
         android:id="@+id/view"
         android:background="@drawable/bg_main_view">
@@ -30,7 +40,6 @@
             android:id="@+id/post_container" >
 
         </FrameLayout>
-
     </RelativeLayout>
 
 </RelativeLayout>

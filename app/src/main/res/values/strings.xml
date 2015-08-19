@@ -17,4 +17,5 @@
     <string name="image_galleries_button">Image Galleries</string>
     <string name="untitled_image_block">Untitled</string>
     <string name="zoomed_image_desc">A zoomed in view of the featured image.</string>
+    <string name="view_browser_button">View in Browser</string>
 </resources>

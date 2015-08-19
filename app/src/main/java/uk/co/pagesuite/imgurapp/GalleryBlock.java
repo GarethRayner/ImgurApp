@@ -85,6 +85,7 @@ public class GalleryBlock extends Fragment {
                 intent.putExtra("image", posts.get(position).imageUrl);
                 intent.putExtra("title", posts.get(position).title);
                 intent.putExtra("upvotes", posts.get(position).upvotes);
+                intent.putExtra("url", posts.get(position).url);
 
                 //Start the activity with the intent.
                 startActivity(intent);
@@ -135,7 +136,7 @@ public class GalleryBlock extends Fragment {
                 }
 
                 //Create a new Sub instance, passing the obtained and parsed JSON data, such as ID, Title and Url of the image.
-                Sub sub = new Sub(post.optString("id"), post.optString("title"), url, post.optInt("ups"));
+                Sub sub = new Sub(post.optString("id"), post.optString("title"), url, post.optInt("ups"), post.optString("url"));
 
                 //Store the created Sub instance.
                 posts.add(sub);
