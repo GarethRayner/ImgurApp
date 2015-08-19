@@ -1,13 +1,15 @@
 package uk.co.pagesuite.imgurapp;
 
-import android.app.Activity;
+
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import com.android.volley.Response;
@@ -17,8 +19,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import java.util.ArrayList;
 
-public class MainGallery extends Activity {
-
+public class GalleryBlock extends Fragment {
     /*
         Initalising global variables.
             posts       ArrayList of Sub objects containing parsed JSON data for display.
@@ -32,21 +33,44 @@ public class MainGallery extends Activity {
     private GridView grid;
     private JSONObject load;
     private SwipeRefreshLayout refresher;
+    private static String cat;
+
+    public GalleryBlock() {
+        // Required empty public constructor
+    }
 
     /*
-        Custom onCreate. Sets content, then sets onRefreshListener for the SwipeRefresh, before finally setting the OnItemClick listener for the GridView and stating behaviour.
+        Intended to act as a non-default constructor, this method stores the category of this instance and assigns arguments for storing when initialised.
             @params
-                    savedInstanceState      The Activity saved instance state information.
-      */
+                category    The String category (case-sensitive) for this GalleryBlock instance.
+     */
+    public static final GalleryBlock newInstance(String category) {
+        //Create a new GalleryBlock instance...
+        GalleryBlock block = new GalleryBlock();
+
+        //Create a new Bundle for arguments. It will only take 1.
+        Bundle args = new Bundle(1);
+
+        //Store the category as an argument and set the GalleryBlock to those arguments.
+        args.putString("category", category);
+        block.setArguments(args);
+
+        //Return the new instance of the GalleryBlock.
+        return block;
+    }
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        //Call the super to handle all create functions not dealt with here...
-        super.onCreate(savedInstanceState);
-        //Set the content view to be displayed.
-        setContentView(R.layout.activity_main_gallery);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_gallery_block, container, false);
+
+        //Fetch the stored category and store it in the global variable.
+        cat = getArguments().getString("category");
+
 
         //Obtain a reference to the SwipeRefreshLayout in the layout...
-        refresher = (SwipeRefreshLayout) findViewById(R.id.refresh);
+        refresher = (SwipeRefreshLayout) view.findViewById(R.id.refresh);
 
         //Set the onRefreshListener for it, creating a new listener.
         refresher.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -59,7 +83,7 @@ public class MainGallery extends Activity {
         });
 
         //Obtain a reference to the GridView in the layout...
-        grid = (GridView) findViewById(R.id.gridView);
+        grid = (GridView) view.findViewById(R.id.gridView);
 
         //Start the initial download and refresh of content...
         refreshGallery();
@@ -70,7 +94,7 @@ public class MainGallery extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //Create a new intent for the PostViewMain activity.
-                Intent intent = new Intent(getApplicationContext(), PostViewMain.class);
+                Intent intent = new Intent(getActivity().getBaseContext(), PostViewMain.class);
 
                 //Set arguments...
                 intent.putExtra("image", posts.get(position).imageUrl);
@@ -80,11 +104,13 @@ public class MainGallery extends Activity {
                 startActivity(intent);
             }
         });
+
+        return view;
     }
 
     /*
-        A method that is triggered when the download has finished, storing the JSON object returned, clearing the ArrayList of current posts and repopulating it with new Sub objects containing data from the new JSON.
-     */
+            A method that is triggered when the download has finished, storing the JSON object returned, clearing the ArrayList of current posts and repopulating it with new Sub objects containing data from the new JSON.
+         */
     private void finishedDownload()
     {
         //Log that the feed is being re-downloaded.
@@ -139,42 +165,11 @@ public class MainGallery extends Activity {
     }
 
     /*
-        Standard method for onCreate, inflating the menu. The only content should be the manual refresh.
-     */
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main_gallery, menu);
-        return true;
-    }
-
-    /*
-        Standard method for onOptionsSelected Listener. Simply takes appropriate action if selected.
-     */
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_refresh) {
-            //If the user has clicked refresh, call refreshGallery and set the refresher object to refreshing.
-            refreshGallery();
-            refresher.setRefreshing(true);
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    /*
         This method simply creates a new GalleryAdapter, passes the new posts data list, invalidates current views and then sets the adapter to reload all views with new content.
      */
     public void resetAdapter() {
         //Create a new GalleryAdapter with the context and data.
-        adapter = new GalleryAdapter(this, posts);
+        adapter = new GalleryAdapter(getActivity().getBaseContext(), posts);
 
         //Invalidate all current views in the GridView and pass the new adapter.
         grid.invalidateViews();
@@ -188,8 +183,10 @@ public class MainGallery extends Activity {
         When this method is called, it downloads the latest feed directly and then calls finishedDownload once the onRespose listener fires. If an error occurs, it prints a stack trace.
      */
     public void refreshGallery() {
-        //Create a new JsonObjectRequest instance, passing in the hardcoded String url. Supply the new listener and the error listener.
-        JsonObjectRequest json = new JsonObjectRequest("https://www.reddit.com/r/gaming/hot.json", new Response.Listener<JSONObject>() {
+        //Create a new JsonObjectRequest instance, passing in the hardcoded String url and the case-sensitive category String. Supply the new listener and the error listener.
+        Log.d("Debug", cat);
+
+        JsonObjectRequest json = new JsonObjectRequest("https://www.reddit.com/r/" + cat + "/hot.json", new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 //When a response is retrieved, fill load with the response data.
@@ -201,13 +198,12 @@ public class MainGallery extends Activity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                //If an error occurs, simply print the stack trace.
-                error.printStackTrace();
+                Log.e("Network Error", "Feed Load Failure");
             }
         });
 
         //Fetch the custom ReqQueue to get the Volley RequestQueue and add the request for download.
-        ReqQueue.getInstance(this).add(json);
+        ReqQueue.getInstance(getActivity().getBaseContext()).add(json);
 
         //Reset the adapter to reload the views.
         resetAdapter();

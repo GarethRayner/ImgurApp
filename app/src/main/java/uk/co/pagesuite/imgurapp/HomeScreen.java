@@ -16,8 +16,8 @@ public class HomeScreen extends Activity {
         setContentView(R.layout.activity_home_screen);
     }
 
-    public void mainView(View view) {
-        Intent intent = new Intent(this, MainGallery.class);
+    public void imageGalls(View view) {
+        Intent intent = new Intent(this, MainGalleries.class);
         startActivity(intent);
     }
 }

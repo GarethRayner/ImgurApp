@@ -20,20 +20,20 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainGallery"
-            android:label="@string/title_activity_main_gallery"
-            android:parentActivityName=".HomeScreen" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="uk.co.pagesuite.imgurapp.HomeScreen" />
-        </activity>
-        <activity
             android:name=".PostViewMain"
             android:label="@string/title_activity_post_view_main"
             android:parentActivityName=".MainGallery" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="uk.co.pagesuite.imgurapp.MainGallery" />
+        </activity>
+        <activity
+            android:name=".MainGalleries"
+            android:label="@string/title_activity_main_galleries"
+            android:parentActivityName=".HomeScreen" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="uk.co.pagesuite.imgurapp.HomeScreen" />
         </activity>
     </application>
 
