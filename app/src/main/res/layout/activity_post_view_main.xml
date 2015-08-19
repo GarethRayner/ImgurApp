@@ -21,6 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/header"
         android:layout_marginTop="10dp"
+        android:id="@+id/view"
         android:background="@drawable/bg_main_view">
 
         <FrameLayout

@@ -6,12 +6,11 @@
     android:padding="10dp" >
 
     <com.android.volley.toolbox.NetworkImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="500dp"
+        android:layout_height="350dp"
+        android:padding="10dp"
         android:id="@+id/image"
-        android:scaleType="fitCenter"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true" />
+        android:scaleType="fitCenter"/>
 
     <TextView
         android:layout_width="match_parent"

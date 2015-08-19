@@ -23,6 +23,7 @@ public class Sub {
                 i   The id to be stored for this post.
                 t   The title to be stored for this post.
                 iM  The image URL to be stored for this post.
+                up  The upvotes for this post.
      */
     public Sub(String i, String t, String iM, int up) {
         //Simply set all the variables with appropriate param.
